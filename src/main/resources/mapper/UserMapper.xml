@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzp.poi.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="user" type="com.wzp.poi.bean.User">
+        <id column="user_id" property="id" javaType="java.lang.String"/>
+        <result column="SEX" property="sex" javaType="String"/>
+        <result column="ADDRESS" property="address" javaType="String"/>
+        <result column="PHONE" property="phone" javaType="Long"/>
+        <result column="CREATE_DATE" property="createDate" javaType="Long"/>
+        <result column="LAST_LOGIN_DATE" property="lastLoginDate" javaType="Long"/>
+    </resultMap>
+
+    <insert id="addUser" parameterType="com.wzp.poi.bean.User" keyProperty="id" useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            select REPLACE(UUID(),'-','')
+        </selectKey>
+        insert into sso_user values (#{id},#{name},#{sex},#{address},#{phone},#{createDate},#{lastLoginDate})
+    </insert>
+
+    <select id="findAllUser" resultMap="user">
+        select * from sso_user
+    </select>
+
+    <select id="findUser" parameterType="long" resultMap="user">
+        select * from sso_user where ID = #{id}
+    </select>
+
+    <insert id="addUserByList" parameterType="list">
+        insert into sso_user values
+        <foreach collection="list" item="user" index="index" separator=",">
+            ((select REPLACE(UUID(),'-','') AS
+            id),#{user.name},#{user.sex},#{user.address},#{user.phone},#{user.createDate},#{user.lastLoginDate})
+        </foreach>
+    </insert>
+
+    <select id="findAllColumnName" resultType="string">
+        SELECT column_name FROM information_schema.COLUMNS WHERE table_schema = 'jnshu' AND table_name = 'sso_user'
+    </select>
+
+    <select id="getToMap" resultType="map">
+        select user_id as id ,name as name ,sex as _sex from sso_user where user_id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: ${url}
+    username: ${name}
+    password: ${password}
+    driver-class-name: ${driver-class-name}
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    # 初始化大小，最小，最大
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 30000
+      connection-init-sqls: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
+  profiles:
+    include: config
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+  aop:
+    auto: true
+
+#mybatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.wzp.poi.bean
+
+#tomcat 端口号
+server:
+  port: 8080

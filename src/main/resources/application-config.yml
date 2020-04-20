@@ -1,0 +1,4 @@
+url: jdbc:mysql://49.232.58.80:3306/wzp_study?useUnicode=true&characterEncoding=utf-8&useSSL=false
+name: root
+password: whaty123
+driver-class-name: com.mysql.jdbc.Driver
